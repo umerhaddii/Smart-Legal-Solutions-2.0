@@ -7,38 +7,28 @@ This project automates the analysis of legal documents, focusing on Serbian law.
 
 ## Flowchart
 
-The following flowchart visualizes the document analysis process from input through various assessment stages to final output:
-
-```mermaid
 graph TD
-    A[Document Input] --> B[Initial Legal Analysis]
+    A[Input Document] --> B[Document Chunking]
+    B --> C{Agent Selection}
     
-    B --> C{Legal Assessment}
-    C -->|Compliance Check| D[Contract Issues]
-    C -->|Consumer Protection| E[Consumer Law Violations]
-    C -->|EU Regulations| F[EU Law Implications]
+    C -->|Legal Review Path| D[Legal Review Agent]
+    D --> E[Create Messages with Serbian Legal Prompt]
+    E --> F[Model Invocation]
+    F --> G[Compile Review Parts]
     
-    D --> G[Risk Assessment]
-    E --> G
-    F --> G
+    C -->|Appeal Path| H[Appeal Agent]
+    H --> I[Create Messages]
+    I --> J[Model Invocation]
+    J --> K[Compile Appeal Parts]
     
-    G --> H{Top 3 Risks}
-    H --> I[Business/Legal Risks]
-    H --> J[Court Enforcement]
-    H --> K[Market Practice Deviations]
+    G --> L[Final Legal Review Output]
+    K --> M[Final Appeal Output]
     
-    I --> L[Action Plan]
-    J --> L
-    K --> L
+    subgraph Error Handling
+    N[Error Logging]
+    O[Error Response Generation]
+    end
     
-    L --> M[Required Changes]
-    L --> N[Clause Modifications]
-    L --> O[Risk Mitigation]
-    L --> P[Implementation Guidelines]
-    
-    M --> Q[Final Summary]
-    N --> Q
-    O --> Q
-    P --> Q
-    
-    Q --> R[Critical Issues Report]
+    F -.->|On Error| N
+    J -.->|On Error| N
+    N --> O
