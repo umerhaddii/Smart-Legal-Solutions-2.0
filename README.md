@@ -11,46 +11,47 @@ The following flowchart visualizes the document analysis process from input thro
 
 ```mermaid
 flowchart TD
-    classDef pink fill:#FFB6C1,stroke:#333
-    classDef blue fill:#ADD8E6,stroke:#333
-    classDef green fill:#90EE90,stroke:#333
-    classDef purple fill:#DDA0DD,stroke:#333
-    classDef red fill:#FF6B6B,stroke:#333
-    classDef yellow fill:#FFD700,stroke:#333
+    %% Style definitions
+    classDef primary fill:#4A90E2,stroke:#2171C7,color:#fff,font-size:14px
+    classDef secondary fill:#34495E,stroke:#2C3E50,color:#fff,font-size:14px
+    classDef success fill:#2ECC71,stroke:#27AE60,color:#fff,font-size:14px
+    classDef info fill:#3498DB,stroke:#2980B9,color:#fff,font-size:14px
+    classDef warning fill:#F1C40F,stroke:#F39C12,color:#fff,font-size:14px
+    classDef danger fill:#E74C3C,stroke:#C0392B,color:#fff,font-size:14px
 
     %% Input Processing
-    A[Document Upload]:::pink
-    B[PDF Text Extraction]:::pink
-    C[Document Chunking]:::pink
+    A[Document Upload]:::primary
+    B[PDF Text Extraction]:::primary
+    C[Document Chunking]:::primary
 
     %% Analysis Selection
-    D[Document Type Detection]:::blue
-    E[Analysis Type Selection]:::blue
-    F[Route Determination]:::blue
+    D[Document Type Detection]:::secondary
+    E[Analysis Type Selection]:::secondary
+    F[Route Determination]:::secondary
 
     %% Legal Agents
-    G[Summary Generation]:::green
-    H[Appeal Creation]:::green
-    I[Legal Review]:::green
-    J[Lawsuit Generation]:::green
-    K[Defense Response]:::green
-    L[Contract Analysis]:::green
-    M[Chat Support]:::green
+    G[Summary Generation]:::success
+    H[Appeal Creation]:::success
+    I[Legal Review]:::success
+    J[Lawsuit Generation]:::success
+    K[Defense Response]:::success
+    L[Contract Analysis]:::success
+    M[Chat Support]:::success
 
     %% AI Processing
-    N[GPT-4 Processing]:::purple
-    O[Context Management]:::purple
-    P[Legal Compliance Check]:::purple
+    N[GPT-4 Processing]:::info
+    O[Context Management]:::info
+    P[Legal Compliance Check]:::info
 
     %% Output Handling
-    Q[PDF Generation]:::red
-    R[Web Display]:::red
-    S[Chat Interface]:::red
+    Q[PDF Generation]:::danger
+    R[Web Display]:::danger
+    S[Chat Interface]:::danger
 
     %% Final Delivery
-    T[Document Downloads]:::yellow
-    U[Web Interface]:::yellow
-    V[Result Storage]:::yellow
+    T[Document Downloads]:::warning
+    U[Web Interface]:::warning
+    V[Result Storage]:::warning
 
     %% Flow connections
     A --> B --> C
