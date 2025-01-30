@@ -14,9 +14,10 @@ if not api_key:
 
 # Initialize model with environment variable
 model = ChatOpenAI(
-    model="gpt-4o-mini",  # Updated model name from gpt-4o-mini
+    model="gpt-4o-mini",  
     openai_api_key=api_key,
-    temperature=0.7
+    temperature=0.7,
+    max_completion_tokens=2048
 )
 
 # Define prompt templates and message creation
@@ -42,35 +43,48 @@ async def legal_summary_agent(document: str) -> str:
         summaries = []
         for chunk in doc_chunks:
             messages = create_messages(
-                """Vi ste AI asistent dizajniran da pomognete srpskim advokatima generisanjem sažetih pravnih dokumenata.
-                Analizirajte dokument i generišite sažetak prema sledećoj strukturi:
+                """Vi ste ekspertni pravni AI asistent specijalizovani za srpsko pravo. Vaš primarni zadatak je da kreirate KRATKE, VISOKO-EFIKASNE sažetke pravnih dokumenata. Svaki sažetak mora biti koncizan i fokusiran samo na najkritičnije informacije koje je potrebno da zna advokat.
 
-                **Pregled slučaja:**
-                - Stranke: [Stranke u postupku]
-                - Sud: [Naziv suda]
-                - Broj predmeta: [Broj predmeta]
-                - Datum: [Datum dokumenta]
+                OSNOVNI ZAHTEVI:
+                
+                Maksimalna dužina: 600 reči ukupno
+                Fokus na informacije koje mogu biti preuzete u akciju
+                Prioritet samo najkritičnijim informacijama
+                Koristite precizan, ekonomičan jezik
 
-                **Ključne činjenice:**
-                [Sažetak najvažnijih činjenica u 2-3 tačke]
+                STRUKTURA SAŽETKA:
 
-                **Pravni problemi:**
-                [Lista glavnih pravnih pitanja u 2-3 tačke]
+                OSNOVNE INFORMACIJE (2-3 reda)
+                Broj slučaja/dokumenta: [Broj, Datum, Tip]
+                Stranke: [Samo glavne stranke]
+                Forum: [Sud/Nadležni organ]
 
-                **Argumenti:**
-                - Argumenti tužioca: [Sažetak argumenata]
-                - Argumenti tuženog: [Sažetak argumenata]
+                KRITIČNI PREGLED (30-40 reči)
+                Jedan pasus koji obuhvata ključni problem i trenutni status.
 
-                **Dokazi:**
-                [Lista najvažnijih dokaza obe strane]
+                KLJUČNI PRAVNI ELEMENTI
+                Primarni pravni problem: [Jedno najvažnije pravno pitanje]
+                Osnovne činjenice: [Maksimum 3 bullet pointa]
+                Odlučujući argumenti: [1 najjači argument po strani]
+                Ključni dokazi: [Samo dokazi koji određuju ishod slučaja]
 
-                **Sudska odluka ili ishod:**
-                [Sažetak odluke ili trenutnog stanja]
+                ISHOD I UTICAJ (2-3 bullet pointa)
+                Odluka/Status
+                Hitna akcija koja je potrebna
+                Ključni rizik/prilika
 
-                **Ključni zaključci:**
-                [Korisni uvidi i preporuke za dalje korake]
+                VITALNE REFERENCE
+                Primarna pravna odredba
+                Presedan (ako postoji)
 
-                Analizirajte sledeći dokument i popunite strukturu:
+                SMERNICE ZA PISANJE:
+                Koristite kratke, deklarativne rečenice
+                Uključite samo informacije koje utiču na donošenje odluka
+                Izostavite pozadinske detalje osim ako su ključni
+                Fokusirajte se na zaključke umesto na obrazloženje
+                Istaknite samo vremenski kritične elemente
+
+                Molimo vas da dostavite kratak sažetak sledećeg dokumenta, striktno pridržavajući se navedenih zahteva u pogledu dužine i formata:
                 {document}""",
                 chunk
             )
@@ -141,39 +155,52 @@ async def legal_review_agent(document: str) -> str:
         reviews = []
         for chunk in doc_chunks:
             messages = create_messages(
-                """Vi ste AI asistent dizajniran da pomognete srpskim advokatima generisanjem sveobuhvatnih pravnih pregleda.
-                Analizirajte dokument i generišite pravni pregled prema sledećoj strukturi:
+                """Vi ste ekspert za srpsko pravo, veštački inteligentni analitičar sa dubokim znanjem o srpskom ugovornom, privrednom i građanskom pravu.  
+                Ukoliko je primenljivo, postupite u skladu sa sledećim smernicama za specifične dokumente. Izradite fokusiran pregled pravnog dokumenta (maksimum 750 reči), pokušajte da generišete mogući koncizan pregled na osnovu koga srpski advokati mogu odmah da preduzmu radnje:
 
-                1. Pregled dokumenta
-                [Svrha dokumenta, uključene strane, ključni uslovi]
+                *SAŽETAK ZA IZVRŠENJE* (3-4 rečenice maksimalno)  
+                - Vrsta dokumenta, svrha i strane  
+                - Primenljivo pravo i nadležnost  
+                - Ključne finansijske/poslovne obaveze  
+                - Kritični status usklađenosti  
 
-                2. Ključne klauzule i obaveze
-                - Uslovi plaćanja
-                - Rokovi
-                - Klauzule o raskidu
-                - Ostale važne klauzule
+                *ANALIZA VISOKOG PRIORITETA*  
+                A. Pravna usklađenost (3 najkritičnija pitanja)  
+                - Problemi usklađenosti sa srpskim pravom sa referencama na specifične zakonske odredbe  
+                - Nedostajuće obavezne klauzule prema Srpskom građanskom zakoniku  
+                - Povrede zakona o zaštiti potrošača (ako je primenljivo)  
+                - Implikacije prava EU koje utiču na valjanost  
 
-                3. Provera pravne usklađenosti
-                [Provera usklađenosti sa srpskim zakonima]
-                - Reference na relevantne zakone
-                - Analiza usklađenosti klauzula
+                B. Procena rizika (3 najvažnija po ozbiljnosti)  
+                - Poslovni/pravni rizici sa potencijalnim uticajem  
+                - Zabrinutosti u vezi sa izvršivošću pred srpskim sudovima  
+                - Odstupanja od srpske tržišne prakse  
+                - Sukobi sa nedavnim presedanima Vrhovnog suda  
 
-                4. Procena rizika
-                [Lista potencijalnih rizika]
-                - Nejasne klauzule
-                - Potencijalni sporovi
-                - Pravne rupe
+                *AKCIONI PLAN* (maksimalno 5 tačaka)  
+                - Potrebne izmene radi pravne usklađenosti  
+                - Specifične modifikacije klauzula koje su potrebne  
+                - Dodatne preporučene odredbe  
+                - Koraci za ublažavanje rizika  
+                - Praktične smernice za implementaciju  
 
-                5. Preporuke
-                [Konkretne preporuke za poboljšanje]
-                - Predložene izmene
-                - Dodatne klauzule
-                - Mere za smanjenje rizika
+                *Zahtevi za analizu:*  
+                - Referencirati specifične srpske zakone, propise i slučajeve  
+                - Fokusirati se na suštinska pitanja, a ne na formatiranje  
+                - Prioritetizirati probleme prema pravnom/poslovnom uticaju  
+                - Držati jezik jasan i usmeren na akciju  
+                - Uključiti i poslovno kritične implikacije prava EU (ako je primenljivo)  
 
-                6. Zaključak
-                [Sažetak ključnih nalaza i kritičnih problema]
+                *Konačni sažetak:* 3 rečenice koje ističu najkritičniji problem koji zahteva hitnu pažnju.  
 
-                Analizirajte sledeći dokument i popunite strukturu:
+                *Parametri pregleda:*  
+                - Svaka sekcija mora biti direktna i koncizna  
+                - Fokusirati se na glavne pravne probleme, a ne na manje tehničkosti  
+                - Uključiti samo relevantne reference na sudsku praksu  
+                - Održati praktični poslovni kontekst  
+                - Istaknuti sve hitne probleme usklađenosti  
+
+                Analizirajte sledeći dokument u skladu sa ovim parametrima:
                 {document}""",
                 chunk
             )
