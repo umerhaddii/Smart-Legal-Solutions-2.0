@@ -14,10 +14,9 @@ if not api_key:
 
 # Initialize model with environment variable
 model = ChatOpenAI(
-    model="gpt-4o-mini",  
+    model="gpt-5-2025-08-07",  
     openai_api_key=api_key,
-    temperature=0.7,
-    max_completion_tokens=2048
+    temperature=0.7
 )
 
 # Define prompt templates and message creation
@@ -418,3 +417,4 @@ async def legal_chat_helper_agent(document: str, question: str = "") -> str:
     except Exception as e:
         logging.error(f"Error in chat helper: {e}")
         return "I apologize, but I encountered an error. Could you please rephrase your question or specify what you'd like to know about the document?"
+
